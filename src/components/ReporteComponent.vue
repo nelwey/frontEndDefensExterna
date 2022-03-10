@@ -423,12 +423,15 @@ export default {
     },
     async obtenerUvs() {
       try {
-        const { data } = await axios.get("https://api-defensa-externa.herokuapp.com/api/uvs", {
-          headers: {
-            "Content-Type": "application/json",
-            token: localStorage.getItem("token"),
-          },
-        });
+        const { data } = await axios.get(
+          "https://api-defensa-externa.herokuapp.com/api/uvs",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              token: localStorage.getItem("token"),
+            },
+          }
+        );
         console.log("ReporteComponent > obtenerUvs: ", data);
         if (data.ok) {
           this.loading = true;
@@ -505,9 +508,11 @@ export default {
         if (data.ok) {
           this.loading = true;
           setTimeout(() => {
-            this.solicitudData.solicitudes = data.solicitudes;
-            this.ueData.selectedUeducativa.nombre =
-              data.solicitudes[0].idUEducativa.nombre;
+            if (data.solicitudes.length > 0) {
+              this.solicitudData.solicitudes = data.solicitudes;
+              this.ueData.selectedUeducativa.nombre =
+                data.solicitudes[0].idUEducativa.nombre;
+            }
             this.loading = false;
           }, 500);
           this.solicitudData.disabled = false;
@@ -534,8 +539,10 @@ export default {
         if (data.ok) {
           this.loading = true;
           setTimeout(() => {
-            this.ueData.uEducativas = data.uEducativas;
-            this.uvData.selectedUv.nombre = data.uEducativas[0].idUv.nombre;
+            if (data.uEducativas.length > 0) {
+              this.ueData.uEducativas = data.uEducativas;
+              this.uvData.selectedUv.nombre = data.uEducativas[0].idUv.nombre;
+            }
             this.loading = false;
           }, 500);
           this.ueData.disabled = false;

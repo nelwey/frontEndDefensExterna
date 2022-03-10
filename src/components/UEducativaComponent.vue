@@ -323,7 +323,7 @@ export default {
       (v) =>
         !v ||
         /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
-        "E-mail must be valid",
+        "Email no valido",
     ],
 
     //variables formulario
