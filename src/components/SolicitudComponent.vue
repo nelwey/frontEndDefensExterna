@@ -43,6 +43,7 @@
             }"
             class="elevation-1 pa-5"
             :items-per-page="10"
+            :custom-sort="customSort"
           >
             <template v-slot:top>
               <v-container fluid>
@@ -1031,6 +1032,16 @@ export default {
       } else {
         this.tableSolicitudHide = true;
       }
+    },
+    customSort(items, index, isDesc) {
+      items.sort((a, b) => {
+        if (isDesc != "false") {
+          return a[index] < b[index] ? -1 : 1;
+        } else {
+          return b[index] < a[index] ? -1 : 1;
+        }
+      });
+      return items;
     },
   },
 };
