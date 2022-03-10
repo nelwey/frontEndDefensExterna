@@ -64,7 +64,13 @@
         <v-icon small class="mr-2" @click="openDialogActualizar(item)">
           mdi-pencil
         </v-icon>
-        <v-icon  v-if="usuarioRol == 'admin'" small @click="openDialogEliminar(item)"> mdi-delete </v-icon>
+        <v-icon
+          v-if="usuarioRol == 'admin'"
+          small
+          @click="openDialogEliminar(item)"
+        >
+          mdi-delete
+        </v-icon>
       </template>
     </v-data-table>
 
@@ -108,6 +114,7 @@
                     v-model="uEducativaData.email"
                     label="Email"
                     type="text"
+                    :rules="emailRules"
                   ></v-text-field>
                 </v-col>
 
@@ -185,6 +192,7 @@
                     v-model="uEducativaData.selectedUeducativa.email"
                     label="Email"
                     type="email"
+                    :rules="emailRules"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
@@ -311,6 +319,12 @@ export default {
     uVRules: {
       required: (value) => !!value || "UV es requerido!.",
     },
+    emailRules: [
+      (v) =>
+        !v ||
+        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+        "E-mail must be valid",
+    ],
 
     //variables formulario
     isNuevoModalOpen: false,
@@ -382,12 +396,15 @@ export default {
   methods: {
     async obtenerUvs() {
       try {
-        const { data } = await axios.get("https://api-defensa-externa.herokuapp.com/api/uvs", {
-          headers: {
-            "Content-Type": "application/json",
-            token: localStorage.getItem("token"),
-          },
-        });
+        const { data } = await axios.get(
+          "https://api-defensa-externa.herokuapp.com/api/uvs",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              token: localStorage.getItem("token"),
+            },
+          }
+        );
         console.log("UEducativaComponent > obtenerUvs: ", data);
         if (data.ok) {
           this.loading = true;
